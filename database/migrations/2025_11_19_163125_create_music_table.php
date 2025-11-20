@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('music', function (Blueprint $table) {
+            $table->id();
             $table->string('title');
             $table->foreignId('id_category')->constrained('categories')->onDelete('cascade');
             $table->foreignId('id_artist')->constrained('artists')->onDelete('cascade');
             $table->foreignId('id_album')->nullable()->constrained('albums')->onDelete('set null');
-            $table->integer('duration')->nullable();
-            $table->bigInteger('size')->nullable(); // en bytes
+            $table->time('duration')->nullable();
+            $table->integer('size')->nullable(); // en bytes
             $table->string('file_name');
             $table->string('file_url');
             $table->string('cover_image')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->bigInteger('likes')->default(0);
             $table->boolean('is_featured')->default(false);
             $table->timestamps();
+
         });
     }
 

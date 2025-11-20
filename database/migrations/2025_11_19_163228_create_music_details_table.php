@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('music_details', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('cover_image')->nulltable();
-            $table->text('description')->nullable();
+            $table->foreignId('id_lista')->constrained('lista')->onDelete('cascade');
+            $table->foreignId('id_music')->constrained('music')->onDelete('cascade');
+            $table->integer('order')->default(0); // orden dentro de la lista
             $table->timestamps();
+
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('music_details');
     }
 };

@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('music_details', function (Blueprint $table) {
+        Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_lista')->constrained('lista')->onDelete('cascade');
-            $table->foreignId('id_music')->constrained('music')->onDelete('cascade');
-            $table->integer('order')->default(0); // orden dentro de la lista
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('music_id')->constrained('music')->onDelete('cascade');
+            $table->timestamp('played_at')->useCurrent();
             $table->timestamps();
+
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('music_details');
+        Schema::dropIfExists('history');
     }
 };

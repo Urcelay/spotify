@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lista', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->boolean('is_public')->default(false);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('music_id')->constrained('music')->onDelete('cascade');
             $table->timestamps();
+
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lista');
+        Schema::dropIfExists('favorites');
     }
 };

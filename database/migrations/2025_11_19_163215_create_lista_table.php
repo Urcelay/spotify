@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('albums', function (Blueprint $table) {
+        Schema::create('lista', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_artists')->constrained('artists')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->string('name');
-            $table->string('cover_image')->nulltable();
-            $table->integer('release_year')->nullable();
-            $table->integer('total_songs')->default(0);
+            $table->boolean('is_public')->default(false);
             $table->timestamps();
+
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('albums');
+        Schema::dropIfExists('lista');
     }
 };

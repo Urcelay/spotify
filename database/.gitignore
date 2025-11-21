@@ -1,1 +1,18 @@
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Cloudinary (solo si metiste claves)
+cloudinary.php
+config/cloudinary.php
+
+# Databases
 *.sqlite*
+*.sqlite

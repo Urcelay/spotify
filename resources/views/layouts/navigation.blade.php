@@ -11,9 +11,22 @@
                 </div>
 
                 <!-- Navigation Links -->
+                 <!--Barra de navegacion-->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('music.index')" :active="request()->routeIs('music.index')">
+                        {{ __('Musica') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('music.player')" :active="request()->routeIs('Music.player')">
+                        {{ __('Player') }}
                     </x-nav-link>
                 </div>
             </div>

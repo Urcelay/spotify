@@ -26,11 +26,11 @@
                     </div>
                 </header>
             @endif
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
         </div>
+        @yield('scripts')
     </body>
 </html>

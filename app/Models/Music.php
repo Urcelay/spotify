@@ -26,7 +26,7 @@ class Music extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'id_category');
+        return $this->belongsTo(Category::class, 'id_categories');
     }
 
     public function artist()

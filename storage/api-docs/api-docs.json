@@ -1,0 +1,1165 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "AndersSpotify API",
+        "description": "Documentación de la API para el proyecto de reproducción musical tipo Spotify",
+        "contact": {
+            "email": "fernandaurcelay5@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/api/music/{id}/favorite": {
+            "post": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Agregar o quitar una canción de favoritos (toggle)",
+                "operationId": "4d7ec90bc79912319a3d7fbc5b0e6654",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la canción a marcar o desmarcar como favorita",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado de la acción",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Canción eliminada de favoritos"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "music_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Canción no encontrada o no autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/favorites": {
+            "get": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Obtener canciones favoritas del usuario autenticado",
+                "operationId": "862c6428f4eb267ee67a0dabeaf5a018",
+                "responses": {
+                    "200": {
+                        "description": "Lista de canciones favoritas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 7
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Uptown Funk"
+                                            },
+                                            "file_url": {
+                                                "type": "string",
+                                                "example": "https://..."
+                                            },
+                                            "cover_image": {
+                                                "type": "string",
+                                                "example": "https://..."
+                                            },
+                                            "duration": {
+                                                "type": "string",
+                                                "example": "00:04:31"
+                                            },
+                                            "play_count": {
+                                                "type": "integer",
+                                                "example": 700
+                                            },
+                                            "likes": {
+                                                "type": "integer",
+                                                "example": 300
+                                            },
+                                            "artist": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Bruno Mars"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "album": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "24K Magic"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "category": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Funk"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/lista/create": {
+            "post": {
+                "tags": [
+                    "Listas"
+                ],
+                "summary": "Crear una nueva lista de reproducción",
+                "operationId": "6a3c3aede18cffb52fe65fb8eccba25a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Gym Power Playlist"
+                                    },
+                                    "is_public": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lista creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista creada exitosamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Gym Power Playlist"
+                                                },
+                                                "is_public": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/lista/{id}/edit": {
+            "put": {
+                "tags": [
+                    "Listas"
+                ],
+                "summary": "Editar una lista de reproducción",
+                "operationId": "8df77dad56ef74ef983a6ea77cdf6c2d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la lista a editar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Workout Vibes"
+                                    },
+                                    "is_public": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lista actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista actualizada"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Workout Vibes"
+                                                },
+                                                "is_public": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para editar esta lista"
+                    },
+                    "404": {
+                        "description": "Lista no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/lista/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Listas"
+                ],
+                "summary": "Eliminar una lista de reproducción",
+                "operationId": "063cc5ea58a443e89e730354bfab5793",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la lista a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 7
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista eliminada"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 7
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para eliminar esta lista"
+                    },
+                    "404": {
+                        "description": "Lista no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/lista/{user_id}": {
+            "get": {
+                "tags": [
+                    "Listas"
+                ],
+                "summary": "Obtener todas las listas del usuario autenticado",
+                "operationId": "3bec8c094182b330d48d2ae2d3887ebb",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID del usuario autenticado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listas del usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 4
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Chill Mix"
+                                            },
+                                            "is_public": {
+                                                "type": "boolean",
+                                                "example": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para ver estas listas"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/music/top": {
+            "get": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Obtener el Top 10 de canciones más reproducidas",
+                "operationId": "51a450c0837e3782952adc43cfaa7fbf",
+                "responses": {
+                    "200": {
+                        "description": "Listado de las canciones top",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Bohemian Rhapsody"
+                                            },
+                                            "file_url": {
+                                                "type": "string",
+                                                "example": "https://res.cloudinary.com/csong/file.mp3"
+                                            },
+                                            "cover_image": {
+                                                "type": "string",
+                                                "example": "https://res.cloudinary.com/csong/img.jpg"
+                                            },
+                                            "duration": {
+                                                "type": "string",
+                                                "example": "00:05:55"
+                                            },
+                                            "play_count": {
+                                                "type": "integer",
+                                                "example": 1520
+                                            },
+                                            "likes": {
+                                                "type": "integer",
+                                                "example": 300
+                                            },
+                                            "is_featured": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "artist": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Queen"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "album": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Greatest Hits"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "category": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Rock"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/music/filter": {
+            "get": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Filtrar canciones por categoría, artista o álbum",
+                "operationId": "214bf106049ee9b4f695cb815b984349",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "ID de la categoría",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "artist",
+                        "in": "query",
+                        "description": "ID del artista",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    },
+                    {
+                        "name": "album",
+                        "in": "query",
+                        "description": "ID del álbum",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Canciones filtradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Nombre de canción"
+                                            },
+                                            "file_url": {
+                                                "type": "string",
+                                                "example": "https://..."
+                                            },
+                                            "duration": {
+                                                "type": "string",
+                                                "example": "00:03:45"
+                                            },
+                                            "play_count": {
+                                                "type": "integer",
+                                                "example": 500
+                                            },
+                                            "cover_image": {
+                                                "type": "string",
+                                                "example": "https://..."
+                                            },
+                                            "artist": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Nombre del artista"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "album": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Nombre del álbum"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "category": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Rock"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/music/search": {
+            "get": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Buscar canciones por título",
+                "operationId": "b4c0f369268f9a80744f6518676e22f8",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Palabra clave del título de la canción",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "love"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de canciones que coinciden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Love Story"
+                                            },
+                                            "file_url": {
+                                                "type": "string",
+                                                "example": "https://..."
+                                            },
+                                            "cover_image": {
+                                                "type": "string",
+                                                "example": "https://..."
+                                            },
+                                            "duration": {
+                                                "type": "string",
+                                                "example": "00:04:12"
+                                            },
+                                            "play_count": {
+                                                "type": "integer",
+                                                "example": 320
+                                            },
+                                            "likes": {
+                                                "type": "integer",
+                                                "example": 50
+                                            },
+                                            "is_featured": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "artist": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Taylor Swift"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "album": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Fearless"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "category": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Pop"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Consulta vacía"
+                    }
+                }
+            }
+        },
+        "/api/music/{id}": {
+            "get": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Obtener detalle de una canción por ID",
+                "operationId": "781486f7c8920f9918770b4a1210f573",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la canción",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de la canción",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Shape of You"
+                                        },
+                                        "file_url": {
+                                            "type": "string",
+                                            "example": "https://..."
+                                        },
+                                        "cover_image": {
+                                            "type": "string",
+                                            "example": "https://..."
+                                        },
+                                        "duration": {
+                                            "type": "string",
+                                            "example": "00:03:54"
+                                        },
+                                        "play_count": {
+                                            "type": "integer",
+                                            "example": 1800
+                                        },
+                                        "likes": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "is_featured": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "artist": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Ed Sheeran"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "album": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Divide"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "category": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Pop"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Canción no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/music/like/{id}": {
+            "post": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Registrar un like a una canción",
+                "operationId": "8dc33f03194a571fd3f922abda99a1ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la canción a la que se dará like",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Like registrado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Like registrado"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Shape of You"
+                                                },
+                                                "likes": {
+                                                    "type": "integer",
+                                                    "example": 151
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Canción no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/music/play/{id}": {
+            "post": {
+                "tags": [
+                    "Música"
+                ],
+                "summary": "Registrar una reproducción (play) a una canción",
+                "operationId": "46b10695f172c50c2325c342673539ed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la canción a reproducir",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reproducción registrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reproducción registrada"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Thunderstruck"
+                                                },
+                                                "play_count": {
+                                                    "type": "integer",
+                                                    "example": 542
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Canción no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Registrar nuevo usuario",
+                "operationId": "a6ee5da5a47c466565d321f664cc5d61",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario registrado correctamente"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "l|asdkjasdkljlaklsjdkj"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error en los datos de validación"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Iniciar sesión y obtener token",
+                "operationId": "f68a32310fa58f361d8560dd2c297508",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso con token"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cerrar sesión (revocar token)",
+                "operationId": "6c567f233ce39fe7128c3ea78c4e52eb",
+                "responses": {
+                    "200": {
+                        "description": "Logout exitoso"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Usa el token generado tras el login. Formato: Bearer (token)",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticación",
+            "description": "Endpoints de registro, login y logout de usuarios"
+        },
+        {
+            "name": "Música",
+            "description": "Música"
+        },
+        {
+            "name": "Listas",
+            "description": "Listas"
+        }
+    ]
+}

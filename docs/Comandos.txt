@@ -1,0 +1,11 @@
+php artisan migrate:fresh --seed
+
+php artisan db:seed
+
+php artisan l5-swagger:generate
+
+http://localhost:8000/api/documentation
+
+php artisan serve
+
+npm run dev

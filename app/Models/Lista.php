@@ -19,7 +19,7 @@ class Lista extends Model
 
     public function music()
     {
-        return $this->belongsToMany(Music::class, 'music_details', 'id_lista', 'id_music')->withPivot();
+        return $this->belongsToMany(Music::class, 'music_details', 'id_lista', 'id_music');
     }
     
 

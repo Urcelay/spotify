@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lista;
+use App\Models\User;
 
 class ApiListaController extends Controller
 {
@@ -212,4 +213,41 @@ public function create(Request $request)
 
         return response()->json($listas, 200);
     }
+
+
+/**
+ * @OA\Get(
+ *     path="/api/lista/public",
+ *     summary="Obtener todas las listas de reproducción públicas",
+ *     tags={"Listas"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Listado de listas públicas",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Chill Mix"),
+ *                 @OA\Property(property="is_public", type="boolean", example=true),
+ *                 @OA\Property(property="user", type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="AnderCode")
+ *                 )
+ *             )
+ *         )
+ *     )
+ * )
+ */
+public function publiclistas()
+{
+    $listas = Lista::where('is_public', true)
+        ->with('user:id,name')
+        ->get();
+
+    return response()->json($listas, 200);
+}
+
+
+
 }

@@ -458,6 +458,57 @@
                 ]
             }
         },
+        "/api/lista/public": {
+            "get": {
+                "tags": [
+                    "Listas"
+                ],
+                "summary": "Obtener todas las listas de reproducción públicas",
+                "operationId": "ef06bab55199a69517b54d585a6f26d8",
+                "responses": {
+                    "200": {
+                        "description": "Listado de listas públicas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Chill Mix"
+                                            },
+                                            "is_public": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "user": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "AnderCode"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/music/top": {
             "get": {
                 "tags": [
@@ -1015,6 +1066,281 @@
                 }
             }
         },
+        "/api/lista/{id}/add": {
+            "post": {
+                "tags": [
+                    "Lista Musica Detalle"
+                ],
+                "summary": "Agregar canciones a una lista de reproducción",
+                "operationId": "7fe5678ab7d8fb2c9d9f3ee8c421449c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la lista a modificar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "music_ids"
+                                ],
+                                "properties": {
+                                    "music_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2,
+                                            5
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Canciones agregadas a la lista",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Canciones agregadas correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para modificar esta lista"
+                    },
+                    "404": {
+                        "description": "Lista no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/lista/{id}/songs": {
+            "get": {
+                "tags": [
+                    "Lista Musica Detalle"
+                ],
+                "summary": "Obtener las canciones de una lista de reproducción",
+                "operationId": "e21a52ea39d4eae1a235499650d49842",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la lista",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contenido de la lista",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "lista": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Mi playlist 2025"
+                                                },
+                                                "is_public": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "AnderCode"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "songs": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 12
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Viva La Vida"
+                                                    },
+                                                    "file_url": {
+                                                        "type": "string",
+                                                        "example": "https://..."
+                                                    },
+                                                    "duration": {
+                                                        "type": "string",
+                                                        "example": "00:04:03"
+                                                    },
+                                                    "artist": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 7
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Coldplay"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "album": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Viva la Vida"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Alternativo"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para ver esta lista"
+                    },
+                    "404": {
+                        "description": "Lista no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/lista/{id}/remove/{music_id}": {
+            "delete": {
+                "tags": [
+                    "Lista Musica Detalle"
+                ],
+                "summary": "Eliminar una canción de una lista de reproducción",
+                "operationId": "282640b4dd6337cc04d86db0bb560876",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la lista",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    },
+                    {
+                        "name": "music_id",
+                        "in": "path",
+                        "description": "ID de la canción a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 7
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Canción eliminada de la lista",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Canción eliminada de la lista"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para modificar esta lista"
+                    },
+                    "404": {
+                        "description": "Lista o canción no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -1160,6 +1486,10 @@
         {
             "name": "Listas",
             "description": "Listas"
+        },
+        {
+            "name": "Lista Musica Detalle",
+            "description": "Lista Musica Detalle"
         }
     ]
 }

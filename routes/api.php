@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiUserController;
 use App\Http\Controllers\ApiMusicController;
 use App\Http\Controllers\ApiFavoriteController;
 use App\Http\Controllers\ApiListaController;
+use App\Http\Controllers\ApiMusicDetailController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -14,6 +15,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/register', [ApiUserController::class, 'register']);
 Route::post('/login', [ApiUserController::class, 'login']);
+
+Route::get('/lista/public', [ApiListaController::class, 'publicListas']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout', [ApiUserController::class, 'logout']);
@@ -26,6 +29,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::delete('/lista/{id}/delete', [ApiListaController::class, 'delete']);
     Route::get('/lista/{user_id}', [ApiListaController::class, 'getByUser']);
 
+    Route::post('/lista/{id}/add', [ApiMusicDetailController::class, 'addToLista']);
+    Route::get('/lista/{id}/songs', [ApiMusicDetailController::class, 'getSongs']);
+    Route::delete('/lista/{id}/remove/{music_id}', [ApiMusicDetailController::class, 'removeFromLista']);
+
+
+
 });
 
 Route::get('/music/top', [ApiMusicController::class, 'top']);
@@ -34,4 +43,5 @@ Route::get('/music/search', [ApiMusicController::class, 'search']);
 Route::get('/music/{id}', [ApiMusicController::class, 'show']);
 Route::post('/music/like/{id}', [ApiMusicController::class, 'like']);
 Route::post('/music/play/{id}', [ApiMusicController::class, 'play']);
+
 
